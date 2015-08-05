@@ -1,0 +1,15 @@
+# Latexmk generates these files
+
+*.aux
+*.dvi
+*.fdb_latexmk
+*.nav
+*.snm
+*.fls
+*.log
+*.out
+*.toc
+
+# Actual compilation result.
+
+*.pdf
