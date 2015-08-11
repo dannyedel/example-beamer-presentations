@@ -1,0 +1,224 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\title{Greek Alphabet}
+\subtitle{Demonstration presentation for usage with dspdfviewer}
+\author{Benjamin Desef}
+\date{11.08.2015}
+
+\makeatletter
+
+% The presentation and the notes will get a line stretch of this value
+% Default is 1.3.
+\def\globalSpacing{1.3}
+
+% You may use the \themeoptions macro to append options to the Hannover theme.
+% Default is hideothersubsections.
+%\def\themeOptions{}
+
+% This will control whether notes are suppressed (1) or not (0)
+% Default is 0.
+%\def\hideNotes{1}
+
+\input{base.sty}
+\input{cosmetics.sty}
+
+% Use those commands to define whether the navigation titels contain enumeration items.
+% For those, indention is controlled so they are aligned properly. The commands expect
+% the delimiter as a first parameter.
+%\indentSection{ }
+\indentSubsection{ }
+%\indentSubsubsection{ }
+
+\makeatother
+
+\begin{document}
+   \maketitle
+   \section{Majuscules}
+      \subsection{§1 First eight capital Greek letters}
+         \begin{frame}{Capital letters}{First eight}
+            \begin{enumerate}
+               \item Alpha, Beta
+               \item Gamma, Delta
+                  \note{This is an annotation that belongs to ``Gamma, Delta''.}
+               \item Epsilon, Zeta
+               \item Eta, Theta
+            \end{enumerate}
+         \end{frame}
+         \subsubsection{Alpha, Beta}
+            \begin{frame}{Capital letters}{Alpha, Beta}
+               \[ A \note{Annotations will always be inserted at the same $y$ position as the text they belong to. Insertion into math mode is also possible (align environments as well as \texttt{\textbackslash[ \textbackslash]}).} \]
+               \[ B \]
+            \end{frame}
+         \subsubsection{Gamma, Delta}
+            \begin{frame}{Capital letters}{Gamma, Delta}%
+               % The capital \Note command is needed, as \note will start a new paragraph. If no text follows, this leads to a wrong y position of the equations. I have not found a way to avoid this; basically, as soon as \pdfsavepos is triggered (here by \zsaveposy), the paragraph will begin. \Note compensates this by inserting a negative \vspace (undesirable if text follows).
+               \Note{Note that in the navigation bar, the long title of this subsection is adjusted in a way that the enumeration is aligned properly. For this purpose, the caption is split at a defined delimiter (which can easily be adjusted via the first parameter of the \texttt{\textbackslash isec} command, see lines 247\,--\,253). This behavior is currently implemented for subsections, but can easily be extended to sections and subsubsections.}
+               \[ \Gamma \]
+               \[ \Delta \]
+            \end{frame}
+         \subsubsection{Epsilon, Zeta}
+            \begin{frame}[label=ce]{Capital letters}{Epsilon, Zeta}
+               \[ E \note{Jump to \hyperlink{se}{small epsilon} -- hyperlinks work in annotations as well.} \]
+               \[ Z \]
+            \end{frame}
+         \subsubsection{Eta, Theta}
+            \begin{frame}{Capital letters}{Eta, Theta}
+               \[ H \note{The next slide will show a preview of the following slide in the internal area. This can be done by enclosing the frames in a \texttt{peek} environment (but it cannot be triggered on or of \emph{within} one frame). It works for overlays as well as for more than one frame. You should not make use of notes on slide which has this key.} \]
+               \[ \Theta \]
+            \end{frame}
+      \subsection{§2 Next eight capital Greek letters}
+         \begin{peek}
+            \begin{frame}{Capital letters}{Next eight}
+               \begin{enumerate}[<+>]
+                  \setbeamercovered{transparent=50}
+                  \item Iota, Kappa
+                  \item Lambda, Mu
+                  \item Nu, Xi
+                  \item Omicron, Pi
+               \end{enumerate}
+            \end{frame}
+         \end{peek}
+         \subsubsection{Iota, Kappa}
+            \begin{frame}{Capital letters}{Iota, Kappa}
+               \[ I \note{If you do only want to show the next slide on the right side, you can use \texttt{\textbackslash peeknext} before the frame that should contain the duplication. The macro accepts an optional parameter which should be a positive integer (default $1$) that indicates for how long this state should be kept. Set it to $-1$ for infinite peeking (which can be stopped with \texttt{\textbackslash stoppeek}). This is demonstrated in the next frame.} \]
+               \[ K \]
+            \end{frame}
+         \peeknext
+         \subsubsection{Lambda, Mu}
+            \begin{frame}{Capital letters}{Lambda, Mu}
+               \[ \Lambda \]
+               \[ M \]
+            \end{frame}
+         \subsubsection{Nu, Xi}
+            \begin{frame}{Capital letters}{Nu, Xi}
+               \[ N \note{Sometimes, you may find it useful to indicate the end of a specific section in your notes. You can use the command \texttt{\textbackslash secEnd} for this, which accepts an optional parameter for a text that can be added to the end mark. This is demonstrated in the next slide (look at the bottom right).} \]
+               \[ \Xi \]
+            \end{frame}
+         \subsubsection{Omicron, Pi}
+            \begin{frame}{Capital letters}{Omicron, Pi}
+               \[ O \]
+               \[ \Pi \]
+            \end{frame}
+            \secEnd[End of §2 \\ \scriptsize Next: §3]
+      \subsection{§3 Last eight capital Greek letters}
+         \begin{frame}{Capital letters}{Last eight}
+            \begin{enumerate}[<+->]
+               \item Rho, Sigma \note<1>{Notes can also be bound to overlays.}
+               \item Tau, Upsilon \note<2>{Those overlays can be specified directly at the note command: \texttt{\textbackslash note<1->\{...\}}.}
+               \item Phi, Chi \note<3>{But it is also possible to include nodes in outer overlay commands.}
+               \item Psi, Omega \note<4>{Just keep in mind that any of the commands that only remove the ink, but not the spacing (such as \texttt{\textbackslash uncover}) will have no effect on notes. Only commands such as \texttt{\textbackslash only} will work as expected.}
+            \end{enumerate}
+         \end{frame}
+         \subsubsection{Rho, Sigma}
+            \begin{frame}{Capital letters}{Rho, Sigma}
+               \[ P \]
+               \[ \Sigma \]
+               \secEnd[\tiny end of comments]
+            \end{frame}
+         \subsubsection{Tau, Upsilon}
+            \begin{frame}{Capital letters}{Tau, Upsilon}
+               \[ T \]
+               \[ \Upsilon \]
+            \end{frame}
+         \subsubsection{Phi, Chi}
+            \begin{frame}{Capital letters}{Phi, Chi}
+               \[ \Phi \]
+               \[ X \]
+            \end{frame}
+         \subsubsection{Psi, Omega}
+            \begin{frame}{Capital letters}{Psi, Omega}
+               \[ \Psi \]
+               \[ \Omega \]
+            \end{frame}
+   \section{Minuscules}
+      \subsection{§1 First eight Greek letters}
+         \begin{frame}{Small letters}{First eight}
+            \begin{enumerate}
+               \item Alpha, Beta
+               \item Gamma, Delta
+               \item Epsilon, Zeta
+               \item Eta, Theta
+            \end{enumerate}
+         \end{frame}
+         \subsubsection{Alpha, Beta}
+            \begin{frame}{Small letters}{Alpha, Beta}
+               \[ \alpha \]
+               \[ \beta \]
+            \end{frame}
+         \subsubsection{Gamma, Delta}
+            \begin{frame}{Small letters}{Gamma, Delta}
+               \[ \gamma \]
+               \[ \delta \]
+            \end{frame}
+         \subsubsection{Epsilon, Zeta}
+            \begin{frame}[label=se]{Small letters}{Epsilon, Zeta}
+               \[ \epsilon \quad \varepsilon \note{Back to \hyperlink{ce}{capital epsilon}.} \]
+               \[ \zeta \]
+            \end{frame}
+         \subsubsection{Eta, Theta}
+            \begin{frame}{Small letters}{Eta, Theta}
+               \[ \eta \]
+               \[ \theta \quad \vartheta \]
+            \end{frame}
+      \subsection{§2 Next eight Greek letters}
+         \begin{frame}{Small letters}{Next eight}
+            \begin{enumerate}
+               \item Iota, Kappa
+               \item Lambda, Mu
+               \item Nu, Xi
+               \item Omicron, Pi
+            \end{enumerate}
+         \end{frame}
+         \subsubsection{Iota, Kappa}
+            \begin{frame}{Small letters}{Iota, Kappa}
+               \[ \iota \]
+               \[ \kappa \]
+            \end{frame}
+         \subsubsection{Lambda, Mu}
+            \begin{frame}{Small letters}{Lambda, Mu}
+               \[ \lambda \]
+               \[ \mu \]
+            \end{frame}
+         \subsubsection{Nu, Xi}
+            \begin{frame}{Small letters}{Nu, Xi}
+               \[ \nu \]
+               \[ \xi \]
+            \end{frame}
+         \subsubsection{Omicron, Pi}
+            \begin{frame}{Small letters}{Omicron, Pi}
+               \[ o \]
+               \[ \pi \quad \varpi \]
+            \end{frame}
+      \subsection{§3 Last eight capital Greek letters}
+         \begin{frame}{Small letters}{Last eight}
+            \begin{enumerate}
+               \item Rho, Sigma
+               \item Tau, Upsilon
+               \item Phi, Chi
+               \item Psi, Omega
+            \end{enumerate}
+         \end{frame}
+         \subsubsection{Rho, Sigma}
+            \begin{frame}{Small letters}{Rho, Sigma}
+               \[ \rho \quad \varrho \]
+               \[ \sigma \quad \varsigma \]
+            \end{frame}
+         \subsubsection{Tau, Upsilon}
+            \begin{frame}{Small letters}{Tau, Upsilon}
+               \[ \tau \]
+               \[ \upsilon \]
+            \end{frame}
+         \subsubsection{Phi, Chi}
+            \begin{frame}{Small letters}{Phi, Chi}
+               \[ \phi \quad \varphi \]
+               \[ \chi \]
+            \end{frame}
+         \subsubsection{Psi, Omega}
+            \begin{frame}{Small letters}{Psi, Omega}
+               \[ \psi \]
+               \[ \omega \]
+            \end{frame}
+\end{document}
