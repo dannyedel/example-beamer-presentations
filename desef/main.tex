@@ -55,7 +55,7 @@
          \subsubsection{Gamma, Delta}
             \begin{frame}{Capital letters}{Gamma, Delta}%
                % The capital \Note command is needed, as \note will start a new paragraph. If no text follows, this leads to a wrong y position of the equations. I have not found a way to avoid this; basically, as soon as \pdfsavepos is triggered (here by \zsaveposy), the paragraph will begin. \Note compensates this by inserting a negative \vspace (undesirable if text follows).
-               \Note{Note that in the navigation bar, the long title of this subsection is adjusted in a way that the enumeration is aligned properly. For this purpose, the caption is split at a defined delimiter (which can easily be adjusted via the first parameter of the \texttt{\textbackslash isec} command, see lines 247\,--\,253). This behavior is currently implemented for subsections, but can easily be extended to sections and subsubsections.}
+               \Note{Note that in the navigation bar, the long title of this subsection is adjusted in a way that the enumeration is aligned properly. For this purpose, the caption is split at a defined delimiter (which can easily be adjusted via the parameter of the \texttt{\textbackslash indent[Sub[Sub]]Section} command, see lines 31\,--\,33). This behavior is currently implemented for subsections, but can easily be extended to sections and subsubsections.}
                \[ \Gamma \]
                \[ \Delta \]
             \end{frame}
