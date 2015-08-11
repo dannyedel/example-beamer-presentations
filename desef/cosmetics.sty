@@ -1,0 +1,65 @@
+% Set PDF information
+\hypersetup{
+   pdfstartview={Fit},
+   pdftitle={\@title},
+   pdfauthor={\@author},
+   hidelinks,
+   breaklinks=false,
+}
+
+% Fix bad bracket size in Fourier
+\renewcommand{\big}{\bBigg@{1}}
+\renewcommand{\Big}{\bBigg@{1.5}}
+\renewcommand{\bigg}{\bBigg@{2.4}}
+\renewcommand{\Bigg}{\bBigg@{3.2}}
+% Replace bad Fourier arrows by those in Latin Modern
+\DeclareSymbolFont{lmsymbols}{OMS}{lmsy}{m}{n}
+\DeclareMathSymbol{\Leftarrow}{\mathrel}{lmsymbols}{40}
+\DeclareMathSymbol{\Rightarrow}{\mathrel}{lmsymbols}{41}
+\DeclareMathSymbol{\Leftrightarrow}{\mathrel}{lmsymbols}{44}
+
+% Other presentation settings
+\usetheme[width=1.95cm, \themeOptions]{Hannover}
+\usefonttheme[onlymath]{serif}
+\setbeamercolor*{section in sidebar shaded}{parent=palette sidebar secondary}
+\setbeamercolor*{section in sidebar}
+  {parent=section in sidebar shaded,use={sidebar,section in sidebar shaded},%
+   bg=sidebar.bg!70!section in sidebar shaded.fg}
+\setbeamercolor*{subsection in sidebar shaded}{parent=palette sidebar primary}
+\setbeamercolor*{subsection in sidebar}
+  {parent=subsection in sidebar shaded,use=section in sidebar,%
+   bg=section in sidebar.bg}
+\beamertemplatedotitem
+\setbeamertemplate{frametitle}[default][left]
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize subitem}[triangle]
+\setbeamertemplate{itemize subsubitem}[ball]
+
+% Indent sections
+\newcommand{\indentSection}[1]{
+   \setbeamertemplate{section in sidebar}{%
+      \isec{#1}{\insertsectionhead}{section in sidebar}%
+   }
+   \setbeamertemplate{section in sidebar shaded}{%
+      \isec{#1}{\insertsectionhead}{section in sidebar shaded}%
+   }
+}
+\newcommand{\indentSubsection}[1]{
+   \setbeamertemplate{subsection in sidebar}{%
+      \isec{#1}{\insertsubsectionhead}{subsection in sidebar}%
+   }
+   \setbeamertemplate{subsection in sidebar shaded}{%
+      \isec{#1}{\insertsubsectionhead}{subsection in sidebar shaded}%
+   }
+}
+\newcommand{\indentSubsubsection}[1]{
+   \setbeamertemplate{subsubsection in sidebar}{%
+      \isec{#1}{\insertsubsubsectionhead}{subsubsection in sidebar}%
+   }
+   \setbeamertemplate{subsubsection in sidebar shaded}{%
+      \isec{#1}{\insertsubsubsectionhead}{subsubsection in sidebar shaded}%
+   }
+}
+
+% Math mode line spacing
+\setlength{\jot}{2mm}

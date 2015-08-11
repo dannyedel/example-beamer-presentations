@@ -1,0 +1,212 @@
+\usepackage{etex}
+\usepackage{lmodern,amssymb,amsmath,fourier,microtype,setspace,calc,pgfmorepages,zref-user,zref-savepos,tikz,xifthen,xstring}
+
+\ifdefined\globalSpacing\relax\else\def\globalSpacing{1.3}\fi
+\ifdefined\hideNotes\relax\else\def\hideNotes{0}\fi
+
+% Setting up the twoside presentation
+\newcounter{dupnext}
+\pgfpagesdeclarelayout{dn}{}{
+   \pgfpagesphysicalpageoptions{%
+      logical pages=2,%
+      physical height=\pgfpageoptiontwoheight,%
+      physical width=\pgfpageoptiontwowidth,%
+      last logical shipout=1%
+   }
+   \pgfpageslogicalpageoptions{1}{%
+      center=\pgfpageoptionfirstcenter,%
+   }%
+   \pgfpageslogicalpageoptions{2}{%
+      center=\pgfpageoptionsecondcenter,%
+      skip code={{%
+         \hbadness=10000%
+         \vbadness=10000%
+         \ifthenelse{\value{dupnext}>0}{%
+            \ifvoid\csname pgfpages@box@1\endcsname\else%
+            \setbox\csname pgfpages@box@2\endcsname=%
+            \hbox to \pgfphysicalwidth{%
+               \hskip-.6in%
+               \vbadness=10000
+               \vbox to \pgfphysicalheight{%
+                  \vskip-1in%
+                  \parbox[l][0pt][t]{0pt}{%
+                     \hfuzz=\maxdimen%
+                     \vskip-\pgfphysicalheight%
+                     \vskip3mm%
+                     \parbox{2.5cm}{% Add an information that the next slide is shown
+                        \hskip-2mm%
+                        \textcolor{red}{Next slide}%
+                     }%
+                  }%
+                  \copy\beamer@frameboxcopy%
+               }%
+            }\fi%
+            \ifthenelse{\value{dupnext}=2}{%
+               \setcounter{dupnext}{0}%
+            }{%
+               \ifthenelse{\value{dupnext}>2}{%
+                  \addtocounter{dupnext}{-1}%
+               }{}%
+            }%
+         }{%
+            \setcounter{dupnext}{-\value{dupnext}}%
+         }%
+      }},%
+   }%
+}
+\newenvironment{peek}{%
+   \setcounter{dupnext}{-1}%
+}{%
+   \setcounter{dupnext}{0}%
+}
+\newcommand{\peeknext}[1][1]{%
+   \ifthenelse{#1=-1}{%
+      \setcounter{dupnext}{-1}%
+   }{%
+      \setcounter{dupnext}{-#1-1}%
+   }%
+}
+\newcommand{\stoppeek}{%
+   \setcounter{dupnext}{0}%
+}
+\setbeamertemplate{note page}[plain]
+\if\hideNotes1
+   \setbeameroption{hide notes}
+\else
+   \pgfpagesuselayout{dn}[second right]
+   \beamer@twoscreensnotestrue
+   \beamer@notestrue
+   \newcounter{pageanchored}
+   \def\Hy@EveryPageAnchor{%
+      \ifthenelse{\value{pageanchored}<\the\c@page}{% Don't insert twice
+         \Hy@DistillerDestFix
+         \vbox to 0pt{%
+            \kern\voffset
+            \kern\topmargin
+            \kern-1bp\relax
+            \hbox to 0pt{%
+               \kern\hoffset
+               \kern\oddsidemargin
+               \kern-1bp\relax
+               \hyper@@anchor{Navigation\the\c@page}\relax%
+               \hyper@@anchor{page.\the\c@page}\relax%
+               \hss
+            }%
+            \vss
+         }%
+         \setcounter{pageanchored}{\the\c@page}%
+      }{}
+   }
+\fi
+
+% Add spacing to every slide
+\let\oldbegin\beamer@framenotesbegin
+\def\beamer@framenotesbegin{\setstretch{\globalSpacing}\oldbegin}
+
+% Add indention capability to navigation for subsections
+\newlength{\sAw}
+\newlength{\sfl}
+\newcommand{\isec}[3]{% #1: Split char, #2: String to insert, #3: Beamer class
+   \StrCut{#2}{#1}{\sA}{\sB}%
+   \ifthenelse{\equal{\sB}{}}{% \isempty does not work
+      \beamer@sidebarformat{5pt}{#3}{%
+         \sA%
+      }%
+   }{%
+      \setlength{\sfl}{5pt}%
+      \settowidth{\sAw}{\sA#1}%
+      \addtolength{\sfl}{\sAw}%
+      \beamer@sidebarformat{\sfl}{#3}{%
+         \hspace{-\sAw}%
+         \sA#1\sB%
+      }%
+   }%
+}
+
+% Replace note command by the special, aligning one with hyperlink support
+\let\oldnote\note
+\if\hideNotes1
+   \AtBeginNote{%
+      \setstretch{\globalSpacing}%
+   }
+   \renewcommand<>{\note}[1]{%
+      \only#2{%
+         \vbox to 0pt{}% Same spacing as with notes
+      }%
+   }
+\else
+   \newcounter{pposes}
+   \newcounter{poses}
+   \AtBeginNote{%
+      \setcounter{poses}{0}%
+      \setstretch{\globalSpacing}%
+      \let\hyper@link@\hyper@link@note
+   }
+   \AtEndNote{%
+      \setcounter{poses}{0}%
+      \stepcounter{pposes}%
+      \let\hyper@link@\hyper@link@default
+   }
+   \renewcommand<>{\note}[1]{%
+      \only#2{%
+         \stepcounter{poses}%
+         \vbox to 0pt{%
+            \edef\l{p\the\value{pposes}-\the\value{poses}}%
+            \zsaveposy{\l}%
+            \zrefused{\l}%
+            \oldnote{%
+               \stepcounter{poses}%
+               \edef\l{p\the\value{pposes}-\the\value{poses}}%
+               \zref@ifrefundefined{\l}{}{%
+                  \parbox[l][0pt][t]{0pt}{%
+                     \hfuzz=\maxdimen%
+                     \parbox{\textwidth}{%
+                        \vspace{\dimexpr\paperheight - \zposy{\l}sp - 6mm}%
+                        #1%
+                     }%
+                  }%
+               }%
+            }%
+         }%
+      }%
+   }
+   \let\hyper@link@default\hyper@link@
+   \newcommand\hyper@link@note[4][]{%
+      \begingroup%
+         \parbox[l][0pt][t]{0pt}{%
+            \hfuzz=\maxdimen%
+            \vspace*{-1.5mm}%
+            \hspace*{\paperwidth}%
+            \hyper@link@default[#1]{#2}{#3}{\phantom{#4}}%
+         }%
+         \color{blue}#4%
+      \endgroup%
+   }
+\fi
+\newcommand<>{\Note}[1]{%
+   \vspace{-\baselineskip}%
+   \note#2{#1}%
+}
+\newcommand<>{\secEnd}[1][]{%
+   \only#2{\oldnote{%
+      \parbox[l][0pt][t]{0pt}{%
+         \hfuzz=\maxdimen%
+         \parbox{\textwidth}{%
+            \hfuzz=\maxdimen%
+            \vspace{\dimexpr\paperheight - 2.35cm}%
+            \hspace{\dimexpr\paperwidth - 3cm}%
+            \begin{tikzpicture}[baseline=(current bounding box.south)]
+               \draw (0, 0) -- (2, 2)
+                     (.05, 0) -- (2, 1.95)
+                     (.1, 0) -- (2, 1.9);
+               \begin{pgfinterruptboundingbox}
+                  \node[rotate=45, anchor=north, align=center] at (1, .95) {#1};
+               \end{pgfinterruptboundingbox}
+            \end{tikzpicture}
+         }%
+      }%
+   }}%
+}
+
+% Set some cosmetics defaults
+\ifdefined\themeOptions\relax\else\def\themeOptions{hideothersubsections}\fi
