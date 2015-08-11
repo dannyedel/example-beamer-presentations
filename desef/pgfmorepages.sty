@@ -1486,8 +1486,13 @@
 % \pgfhookintoshipout
 
 \newcommand\pgfhookintoshipout{
+  \ifx\CROP@shipout\undefined
   \let\pgfpages@originalshipout=\shipout
   \let\shipout=\pgfpages@interceptshipout
+  \else
+    \let\pgfpages@originalshipout=\CROP@shipout
+    \let\CROP@shipout=\pgfpages@interceptshipout
+  \fi
 }
 
 \def\pgfpages@interceptshipout{%
