@@ -15,6 +15,16 @@
    }
    \pgfpageslogicalpageoptions{1}{%
       center=\pgfpageoptionfirstcenter,%
+      skip code={{%
+         \hbadness=10000%
+         \vbadness=10000%
+         \parbox[l][0pt][t]{0pt}{%
+            \vskip-\pgfphysicalheight%
+            \vskip1mm%
+            \hspace*{.5\pgfphysicalwidth}%
+            \rule{1pt}{\pgfphysicalheight}%
+         }%
+      }},%
    }%
    \pgfpageslogicalpageoptions{2}{%
       center=\pgfpageoptionsecondcenter,%
